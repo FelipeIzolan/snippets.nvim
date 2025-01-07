@@ -6,7 +6,7 @@ return {
       "#include <stdlib.h>",
       "",
       "int main(int argc, char *argv[]) {",
-      "\t $0",
+      "\t$0",
       "\treturn EXIT_SUCCESS;",
       "}"
     }
