@@ -40,7 +40,9 @@
 - [x] HTML
 - [ ] CSS
 - [ ] JavaScript
+- [ ] JSX
 - [ ] TypeScript
+- [ ] TSX
 - [ ] Odin
 - [ ] Ruby
 - [ ] Lua

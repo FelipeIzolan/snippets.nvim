@@ -2,6 +2,11 @@ local cmp = require('cmp')
 local uv = vim.uv
 
 local cache = {}
+local extends = {
+  ['typescript'] = { 'javascript' },
+  ['typescriptreact'] = { 'typescript', 'javascript' },
+  ['javascriptreact'] = { 'javascript' }
+}
 
 local function body2doc(body, filetype)
   local i, n = body:match('${(%d):(%S+)}')
@@ -25,11 +30,8 @@ local function read_file(path)
   return data
 end
 
-return function (filetype)
-  if cache[filetype] then
-    return cache[filetype]
-  end
 
+local function load_file(filetype)
   local dirname = debug.getinfo(1).source:sub(2, -11)
   local ok, data = pcall(read_file, dirname .. filetype .. '/init.lua')
 
@@ -38,12 +40,12 @@ return function (filetype)
   end
 
   local loaded = load(data)()
-  local cmp_items = {}
+  local items = {}
 
   for _, item in ipairs(loaded) do
     local body = type(item.body) == 'table' and table.concat(item.body, '\n') or item.body
 
-    table.insert(cmp_items, {
+    table.insert(items, {
       label = item.prefix,
       documentation = body2doc(body, filetype),
       insertText = body,
@@ -53,6 +55,20 @@ return function (filetype)
     })
   end
 
-  cache[filetype] = cmp_items
-  return cmp_items
+  cache[filetype] = items
+  return items
+end
+
+return function(filetype)
+  local extend = extends[filetype]
+  local base = cache[filetype] or load_file(filetype)
+
+  if extend then
+    for _, e_filetype in ipairs(extend) do
+      local items = cache[e_filetype] or load_file(e_filetype)
+      base = vim.list_extend(base, items)
+    end
+  end
+
+  return base
 end
