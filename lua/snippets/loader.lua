@@ -4,15 +4,18 @@ local uv = vim.uv
 local cache = {}
 local extends = {
   ['typescript'] = { 'javascript' },
-  ['typescriptreact'] = { 'typescript', 'javascript' },
+  ['typescriptreact'] = { 'javascript', 'typescript' },
   ['javascriptreact'] = { 'javascript' }
 }
 
 local function body2doc(body, filetype)
-  local i, n = body:match('${(%d):(%S+)}')
-
-  if i and n then
-    body = body:gsub('${(%d):(%S+)}', n):gsub('$' .. i, n)
+  for _ = 1, 3 do
+    local a, b = body:match('.*${(%d):(%S+)}.*')
+    if b then
+      body = body:gsub('${' .. a .. ':' .. b .. '}', b):gsub('$' .. a, b)
+    else
+      break
+    end
   end
 
   return
@@ -29,7 +32,6 @@ local function read_file(path)
   assert(uv.fs_close(fd))
   return data
 end
-
 
 local function load_file(filetype)
   local dirname = debug.getinfo(1).source:sub(2, -11)

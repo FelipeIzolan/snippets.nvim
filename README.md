@@ -39,7 +39,7 @@
 - [ ] Rust
 - [x] HTML
 - [ ] CSS
-- [ ] JavaScript
+- [x] JavaScript
 - [ ] JSX
 - [ ] TypeScript
 - [ ] TSX

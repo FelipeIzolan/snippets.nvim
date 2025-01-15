@@ -1,6 +1,6 @@
 return {
   {
-    prefix = "st",
+    prefix = "main",
     body = {
       "#include <stdio.h>",
       "#include <stdlib.h>",
@@ -12,7 +12,7 @@ return {
     }
   },
   {
-    prefix = "stv",
+    prefix = "mainv",
     body = {
       "#include <stdio.h>",
       "#include <stdlib.h>",
@@ -24,7 +24,7 @@ return {
     }
   },
   {
-    prefix = "#inc",
+    prefix = "#include",
     body = "#include <$0>"
   },
   {
@@ -32,11 +32,11 @@ return {
     body = "#include \"$0\""
   },
   {
-    prefix = "#def",
+    prefix = "#define",
     body = "#define ${1:MACRO}"
   },
   {
-    prefix = "#deff",
+    prefix = "#definef",
     body = "#define ${1:MACRO}($2) ($3)"
   },
   {
@@ -90,11 +90,11 @@ return {
     }
   },
   {
-    prefix = "#err",
+    prefix = "#error",
     body = "#error \"$0\""
   },
   {
-    prefix = "#warn",
+    prefix = "#warning",
     body = "#warning \"$0\""
   },
   {
